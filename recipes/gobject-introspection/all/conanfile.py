@@ -84,7 +84,10 @@ class GobjectIntrospectionConan(ConanFile):
         with tools.environment_append(
             VisualStudioBuildEnvironment(self).vars
             if self._is_msvc
-            else {"PKG_CONFIG_PATH": self.build_folder}
+            else {
+                "PKG_CONFIG_PATH": self.build_folder,
+                "LD_LIBRARY_PATH": self.deps_cpp_info["glib"].lib_paths
+            }
         ):
             meson = self._configure_meson()
             meson.build()
